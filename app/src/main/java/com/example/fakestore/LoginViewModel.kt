@@ -9,8 +9,9 @@ import com.example.fakestore.model.Login
 import com.example.fakestore.repository.LoginRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
+class LoginViewModel @Inject constructor(private val repository: LoginRepository) : ViewModel() {
     private val _userState = MutableLiveData(LoginState())
     val userState: LiveData<LoginState> = _userState
 
@@ -21,18 +22,22 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
     private fun fetchUsers() {
         viewModelScope.launch {
             try {
+                Log.d(this::class.simpleName, "masuk try")
                 val response = repository.getAllUsers()
                 _userState.value = _userState.value?.copy(
                     isLoading = false,
                     data = response,
                     error = null
                 )
+                Log.d(this::class.simpleName, "_userState.value: ${Gson().toJson(_userState.value)}")
             } catch (e: Exception) {
+                Log.d(this::class.simpleName, "masuk catch")
                 _userState.value = _userState.value?.copy(
                     isLoading = false,
                     data = emptyList(),
                     error = "Error fetch users: ${e.message}"
                 )
+                Log.d(this::class.simpleName, "_userState.value: ${Gson().toJson(_userState.value)}")
             }
         }
     }

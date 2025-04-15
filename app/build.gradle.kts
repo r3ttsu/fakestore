@@ -53,8 +53,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //dependency injection
-    implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    implementation("com.google.dagger:dagger:2.48")
+    kapt("com.google.dagger:dagger-compiler:2.48")
 
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

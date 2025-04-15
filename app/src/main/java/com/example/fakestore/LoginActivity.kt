@@ -3,29 +3,27 @@ package com.example.fakestore
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.transition.Visibility
+import androidx.lifecycle.ViewModelProvider
 import com.example.fakestore.databinding.ActivityLoginBinding
-import com.example.fakestore.repository.LoginRepository
-import com.google.gson.Gson
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val repository = LoginRepository(service)
-        viewModel = LoginViewModel(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
 
         setupView()
     }
@@ -53,9 +51,10 @@ class LoginActivity : AppCompatActivity() {
                 val password = binding.etPassword.text.toString()
                 if (username != "" && password != "") {
                     val isValid = viewModel.validateUser(username, password)
+                    Log.d(this::class.simpleName, "isValid: $isValid")
 
                     if (isValid) {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, DashboardActivity::class.java)
                         startActivity(intent)
                     } else {
                         Toast.makeText(
