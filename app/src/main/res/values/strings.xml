@@ -3,4 +3,12 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="filter">Filter</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="selamat_datang">Selamat Datang</string>
+    <string name="txt_welcome">Silakan login dengan akun Anda</string>
+    <string name="checkout_pesanan">Checkout Pesanan</string>
+    <string name="jargon">one stop shopping platform</string>
+    <string name="keranjang_belanja">Keranjang Belanja</string>
 </resources>

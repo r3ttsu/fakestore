@@ -2,8 +2,11 @@ package com.example.fakestore.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.fakestore.CartViewModel
 import com.example.fakestore.DashboardViewModel
+import com.example.fakestore.DetailProductViewModel
 import com.example.fakestore.LoginViewModel
+import com.example.fakestore.SplashViewModel
 import com.example.fakestore.viewmodel.ViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -20,6 +23,21 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DashboardViewModel::class)
     abstract fun bindRegisterViewModel(viewModel: DashboardViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CartViewModel::class)
+    abstract fun bindCartViewModel(viewModel: CartViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SplashViewModel::class)
+    abstract fun bindsSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailProductViewModel::class)
+    abstract fun bindsDetailProductViewModel(viewModel: DetailProductViewModel): ViewModel
 
     @Binds
     abstract fun bindFactory(factory: ViewModelFactory): ViewModelProvider.Factory

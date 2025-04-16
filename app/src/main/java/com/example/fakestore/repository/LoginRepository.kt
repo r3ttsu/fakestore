@@ -12,4 +12,8 @@ class LoginRepository @Inject constructor(private val service: ApiService) {
     fun validateLogin(users: List<Login>, username: String, password: String): Boolean {
         return users.any { it.username == username && it.password == password }
     }
+
+    fun getUser(users: List<Login>, username: String, password: String): Login? {
+        return users.find { it.username == username && it.password == password }
+    }
 }

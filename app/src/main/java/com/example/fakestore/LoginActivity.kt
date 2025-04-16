@@ -40,38 +40,35 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, state.error, Toast.LENGTH_SHORT).show()
                 }
             }
+            binding.btnLogin.setOnClickListener { submitLogin() }
         }
-        binding.btnLogin.setOnClickListener { submitLogin() }
     }
 
     private fun submitLogin() {
-        viewModel.userState.observe(this) { state ->
-            if (!state.isLoading && state.data.isNotEmpty()) {
-                val username = binding.etUsername.text.toString()
-                val password = binding.etPassword.text.toString()
-                if (username != "" && password != "") {
-                    val isValid = viewModel.validateUser(username, password)
-                    Log.d(this::class.simpleName, "isValid: $isValid")
+        val username = binding.etUsername.text.toString()
+        val password = binding.etPassword.text.toString()
+        if (username != "" && password != "") {
+            val isValid = viewModel.validateUser(username, password)
 
-                    if (isValid) {
-                        val intent = Intent(this, DashboardActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Kombinasi username dan password anda belum tepat!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Username dan Password tidak boleh kosong",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
+            if (isValid) {
+                viewModel.setActiveUser(username, password)
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Kombinasi username dan password anda belum tepat!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+        } else {
+            Toast.makeText(
+                this,
+                "Username dan Password tidak boleh kosong",
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
 }

@@ -19,12 +19,4 @@ class AppModule {
             .build()
             .create(ApiService::class.java)
     }
-
-    @Provides
-    fun provideLoginRepository(apiService: ApiService): LoginRepository {
-        return LoginRepository(apiService)
-    }
-
-//    @Provides
-//    fun provideCatalogRepository():
 }
