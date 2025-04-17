@@ -2,11 +2,11 @@ package com.example.fakestore.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.fakestore.CartViewModel
-import com.example.fakestore.DashboardViewModel
-import com.example.fakestore.DetailProductViewModel
-import com.example.fakestore.LoginViewModel
-import com.example.fakestore.SplashViewModel
+import com.example.fakestore.viewmodel.CartViewModel
+import com.example.fakestore.viewmodel.DashboardViewModel
+import com.example.fakestore.viewmodel.DetailProductViewModel
+import com.example.fakestore.viewmodel.LoginViewModel
+import com.example.fakestore.viewmodel.SplashViewModel
 import com.example.fakestore.viewmodel.ViewModelFactory
 import dagger.Binds
 import dagger.Module

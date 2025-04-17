@@ -9,5 +9,7 @@ class CartRepository @Inject constructor(private val cartDao: CartDao) {
 
     suspend fun getCart(): List<Cart> = cartDao.getCart()
 
+    suspend fun updateCart(cart: Cart) = cartDao.updateCart(cart)
+
     suspend fun clearCart() = cartDao.clearCart()
 }

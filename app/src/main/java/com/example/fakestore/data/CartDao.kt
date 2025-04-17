@@ -3,6 +3,7 @@ package com.example.fakestore.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface CartDao {
@@ -12,6 +13,9 @@ interface CartDao {
     @Insert
     suspend fun addToCart(cart: Cart)
 
-    @Query("DELETE FROM user")
+    @Update
+    suspend fun updateCart(cart: Cart)
+
+    @Query("DELETE FROM cart")
     suspend fun clearCart()
 }

@@ -1,4 +1,4 @@
-package com.example.fakestore
+package com.example.fakestore.feature
 
 import android.os.Bundle
 import android.widget.Toast
@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.fakestore.Constant
+import com.example.fakestore.MyApp
 import com.example.fakestore.databinding.ActivityDetailProductBinding
+import com.example.fakestore.viewmodel.DetailProductViewModel
 import javax.inject.Inject
 
 class DetailProductActivity : AppCompatActivity() {
@@ -32,13 +35,14 @@ class DetailProductActivity : AppCompatActivity() {
             viewModel.getProductDetail(intent.getIntExtra(Constant.ID, 0))
             viewModel.detailProductState.observe(this@DetailProductActivity) { state ->
                 progressbar.isVisible = state.isLoading
+                clMain.isVisible = !state.isLoading
                 if (state.error != null) {
                     Toast.makeText(this@DetailProductActivity, state.error, Toast.LENGTH_SHORT)
                         .show()
                 } else {
                     val product = state.data
 
-                    if(!state.isLoading) {
+                    if (!state.isLoading) {
                         Glide.with(this@DetailProductActivity).load(product?.image)
                             .into(binding.ivProduct)
                         tvName.text = product?.title
@@ -46,6 +50,10 @@ class DetailProductActivity : AppCompatActivity() {
                         tvRating.text = product?.category
                         tvDetail.text = product?.description
                     }
+                }
+                btnBuy.setOnClickListener { state.data?.let { it1 -> viewModel.addToCart(it1) } }
+                if(state.message != null){
+                    Toast.makeText(this@DetailProductActivity, state.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }

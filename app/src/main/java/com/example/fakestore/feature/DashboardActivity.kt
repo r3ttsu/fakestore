@@ -1,4 +1,4 @@
-package com.example.fakestore
+package com.example.fakestore.feature
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
@@ -12,14 +12,19 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fakestore.Constant
+import com.example.fakestore.MyApp
+import com.example.fakestore.R
 import com.example.fakestore.adapter.CategoryAdapter
 import com.example.fakestore.adapter.ProductAdapter
 import com.example.fakestore.data.User
 import com.example.fakestore.databinding.ActivityMainBinding
+import com.example.fakestore.viewmodel.DashboardViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import javax.inject.Inject
 
@@ -40,7 +45,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[DashboardViewModel::class.java]
 
-        setupView()
+//        setupView()
     }
 
     private fun setupView() {
@@ -55,14 +60,22 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 GridLayoutManager(this@DashboardActivity, 2, GridLayoutManager.VERTICAL, false)
             rvProduct.adapter = productAdapter
             viewModel.productState.observe(this@DashboardActivity) { state ->
+                progressbar.isVisible = state.isLoading
+                fabCart.isVisible = !state.isLoading
                 if (state.error != null) {
                     Toast.makeText(this@DashboardActivity, state.error, Toast.LENGTH_SHORT).show()
                 } else {
                     productAdapter.submitList(state.data)
                     tvActiveCategory.text = state.filter
+                    viewModel.fetchCart()
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupView()
     }
 
     private fun onItemClicked(id: Int) {

@@ -1,9 +1,11 @@
-package com.example.fakestore
+package com.example.fakestore.feature
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fakestore.viewmodel.CartViewModel
+import com.example.fakestore.MyApp
 import com.example.fakestore.adapter.CartAdapter
 import com.example.fakestore.databinding.ActivityCartBinding
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.fakestore
+package com.example.fakestore.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

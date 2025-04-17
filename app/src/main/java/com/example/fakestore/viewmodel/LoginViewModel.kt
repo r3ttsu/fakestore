@@ -1,6 +1,5 @@
-package com.example.fakestore
+package com.example.fakestore.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import com.example.fakestore.data.User
 import com.example.fakestore.model.Login
 import com.example.fakestore.repository.LoginRepository
 import com.example.fakestore.repository.UserRepository
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

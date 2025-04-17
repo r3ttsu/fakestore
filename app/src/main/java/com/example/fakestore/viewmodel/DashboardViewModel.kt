@@ -1,16 +1,16 @@
-package com.example.fakestore
+package com.example.fakestore.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fakestore.Constant
 import com.example.fakestore.data.User
 import com.example.fakestore.model.Product
 import com.example.fakestore.repository.CartRepository
 import com.example.fakestore.repository.DashboardRepository
 import com.example.fakestore.repository.UserRepository
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,15 +51,22 @@ class DashboardViewModel @Inject constructor(
     private fun fetchUser() {
         viewModelScope.launch {
             val user = userRepository.getUser()
-            val cart = repository.getCart(user.id)
             _productState.value = _productState.value?.copy(
                 user = user,
             )
-            if(cartRepository.getCart().isEmpty()) {
-                val finalCarts =
-                    _productState.value?.let { repository.mapCart(it.data, cart.products) }
-                finalCarts?.map { finalCart ->
-                    cartRepository.addToCart(finalCart)
+        }
+    }
+
+    fun fetchCart(){
+        viewModelScope.launch {
+            val user = _productState.value?.user
+            val carts = user?.let { repository.getCart(it.id) }
+            if (cartRepository.getCart().isEmpty()) {
+                val myCart = carts?.find { it.userId == user.id }
+                val finalCart =
+                    myCart?.let { repository.mapCart(allProducts, it.products) }
+                finalCart?.map { itemFinalCart ->
+                    cartRepository.addToCart(itemFinalCart)
                 }
             }
         }

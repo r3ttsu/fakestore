@@ -1,11 +1,11 @@
 package com.example.fakestore.di
 
 import android.app.Application
-import com.example.fakestore.CartActivity
-import com.example.fakestore.LoginActivity
-import com.example.fakestore.DashboardActivity
-import com.example.fakestore.DetailProductActivity
-import com.example.fakestore.SplashActivity
+import com.example.fakestore.feature.CartActivity
+import com.example.fakestore.feature.LoginActivity
+import com.example.fakestore.feature.DashboardActivity
+import com.example.fakestore.feature.DetailProductActivity
+import com.example.fakestore.feature.SplashActivity
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
