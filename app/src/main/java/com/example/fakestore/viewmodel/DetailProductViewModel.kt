@@ -42,7 +42,7 @@ class DetailProductViewModel @Inject constructor(
                 val existingItem = carts.find { it.id == product.id }
                 if(existingItem != null){
                     val newCart = existingItem.copy(
-                        quantity = existingItem.quantity++
+                        quantity = existingItem.quantity + 1
                     )
                     cartRepository.updateCart(newCart)
                 } else {

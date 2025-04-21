@@ -27,4 +27,10 @@ interface ApiService {
 
     @GET("products/{id}")
     suspend fun getProductDetail(@Path("id") id: Int): Product
+
+    @GET("products/categories")
+    suspend fun getProductCategories(): List<String>
+
+    @GET("products/category/{category}")
+    suspend fun getProductByCategory(@Path("category") category: String): List<Product>
 }

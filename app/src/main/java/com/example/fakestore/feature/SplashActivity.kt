@@ -39,7 +39,10 @@ class SplashActivity : AppCompatActivity() {
                     this,
                     DashboardActivity::class.java
                 ) else Intent(this, LoginActivity::class.java)
-                Handler().postDelayed({ startActivity(intent) }, 1500)
+                Handler().postDelayed({
+                    startActivity(intent)
+                    finish()
+                }, 1500)
             }
         }
     }

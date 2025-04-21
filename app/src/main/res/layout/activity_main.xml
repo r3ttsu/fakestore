@@ -17,14 +17,47 @@
         app:titleTextColor="@color/white"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/tv_title"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/ib_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/space_3"
+                android:layout_toStartOf="@id/ib_logout"
+                android:background="@android:color/transparent"
+                android:contentDescription="profile"
+                android:padding="0dp"
+                android:src="@drawable/ic_account"
+                app:tint="@color/white" />
+
+            <ImageButton
+                android:id="@+id/ib_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/space_3"
+                android:background="@android:color/transparent"
+                android:contentDescription="profile"
+                android:padding="0dp"
+                android:src="@drawable/ic_logout"
+                app:tint="@color/white" />
+        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
@@ -74,11 +107,11 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/primary"
         android:src="@drawable/ic_cart"
-        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <ProgressBar
         android:id="@+id/progressbar"

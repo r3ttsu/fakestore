@@ -11,5 +11,16 @@ class CartRepository @Inject constructor(private val cartDao: CartDao) {
 
     suspend fun updateCart(cart: Cart) = cartDao.updateCart(cart)
 
+    suspend fun removeItem(cart: Cart) = cartDao.deleteFromCart(cart)
+
     suspend fun clearCart() = cartDao.clearCart()
+
+    fun getTotal(data: List<Cart>): Double{
+        var total = 0.0
+        data.forEach{
+            total += it.quantity * it.price
+        }
+
+        return total
+    }
 }

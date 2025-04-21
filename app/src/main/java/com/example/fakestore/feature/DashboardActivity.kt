@@ -1,13 +1,12 @@
 package com.example.fakestore.feature
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +30,7 @@ import javax.inject.Inject
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private var doubleBackToExitPressedOnce = false
+    private lateinit var categories: List<String>
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -52,6 +52,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         with(binding) {
             fabCart.setOnClickListener(this@DashboardActivity)
             btnFilter.setOnClickListener(this@DashboardActivity)
+            ibProfile.setOnClickListener(this@DashboardActivity)
+            ibLogout.setOnClickListener(this@DashboardActivity)
             val productAdapter =
                 ProductAdapter(
                     this@DashboardActivity
@@ -68,6 +70,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                     productAdapter.submitList(state.data)
                     tvActiveCategory.text = state.filter
                     viewModel.fetchCart()
+                    categories = state.categories
                 }
             }
         }
@@ -115,8 +118,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         val rvCategory = view.findViewById<RecyclerView>(R.id.rv_category)
         rvCategory.setHasFixedSize(true)
         rvCategory.layoutManager = LinearLayoutManager(this)
-        val categoryAdapter = CategoryAdapter(Constant.FILTER_LIST) {
-            viewModel.filterProduct(it)
+        val categoryAdapter = CategoryAdapter(categories) {
+            viewModel.getProductByCategory(it)
             dialog.dismiss()
         }
         rvCategory.adapter = categoryAdapter
@@ -130,31 +133,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private fun goToCart() {
         val intent = Intent(this, CartActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.topbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.productState.observe(this@DashboardActivity) { state ->
-            when (item.itemId) {
-                R.id.profile -> {
-                    showProfile(state.user)
-                }
-
-                R.id.logout -> {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    viewModel.removeUser()
-                    startActivity(intent)
-                    finish()
-                }
-
-                else -> super.onOptionsItemSelected(item)
-            }
-        }
-        return true
     }
 
     @SuppressLint("MissingSuperCall")
@@ -173,9 +151,35 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        when (view?.id) {
-            binding.fabCart.id -> goToCart()
-            binding.btnFilter.id -> filterCategoryDialog()
+        with(binding) {
+            when (view?.id) {
+                fabCart.id -> goToCart()
+                btnFilter.id -> filterCategoryDialog()
+                ibProfile.id -> {
+                    viewModel.productState.value?.let { state ->
+                        showProfile(state.user)
+                    }
+                }
+
+                ibLogout.id -> {
+                    val alertDialog = AlertDialog.Builder(this@DashboardActivity)
+                        .setMessage("Apakah Anda ingin keluar?")
+                        .setPositiveButton("Ya") { _: DialogInterface?, _: Int ->
+                            viewModel.removeUser {
+                                val intent =
+                                    Intent(this@DashboardActivity, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                        }
+                        .setNegativeButton("Batal") { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() }
+                        .setCancelable(false)
+                        .create()
+                    alertDialog.show()
+                }
+
+                else -> {}
+            }
         }
     }
 }

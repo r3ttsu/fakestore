@@ -11,4 +11,9 @@
     <string name="checkout_pesanan">Checkout Pesanan</string>
     <string name="jargon">one stop shopping platform</string>
     <string name="keranjang_belanja">Keranjang Belanja</string>
+    <string name="total_belanja">Total Belanja</string>
+    <string name="pesanan_berhasil_dibuat">Pesanan berhasil dibuat</string>
+    <string name="berikut_adalah_ringkasan_pesanan_anda">Berikut adalah ringkasan pesanan anda</string>
+    <string name="belanja_lagi">Belanja lagi</string>
+    <string name="txt_empty_cart">Keranjang Anda kosong. Silakan mulai berbelanja</string>
 </resources>

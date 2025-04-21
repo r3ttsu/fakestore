@@ -47,7 +47,7 @@ class DetailProductActivity : AppCompatActivity() {
                             .into(binding.ivProduct)
                         tvName.text = product?.title
                         tvPrice.text = "$${product?.price}"
-                        tvRating.text = product?.category
+                        tvRating.text = "${product?.rating?.rate} oleh ${product?.rating?.count} orang"
                         tvDetail.text = product?.description
                     }
                 }

@@ -1,11 +1,9 @@
 package com.example.fakestore.repository
 
-import android.util.Log
 import com.example.fakestore.ApiService
 import com.example.fakestore.model.Cart
 import com.example.fakestore.model.CartProduct
 import com.example.fakestore.model.Product
-import com.google.gson.Gson
 import javax.inject.Inject
 
 class DashboardRepository @Inject constructor(private val service: ApiService) {
@@ -17,11 +15,15 @@ class DashboardRepository @Inject constructor(private val service: ApiService) {
         return service.getCart(id)
     }
 
-    fun filterProduct(products: List<Product>, category: String): List<Product> {
+    suspend fun getCategories(): List<String>{
+        return service.getProductCategories()
+    }
+
+    suspend fun getProductByCategory(products: List<Product>, category: String): List<Product>{
         return if (category == "all products") {
             products
         } else {
-            products.filter { it.category == category }
+            service.getProductByCategory(category)
         }
     }
 
@@ -30,7 +32,6 @@ class DashboardRepository @Inject constructor(private val service: ApiService) {
         cartProducts: List<CartProduct>
     ): List<com.example.fakestore.data.Cart> {
         val finalCart: MutableList<com.example.fakestore.data.Cart> = mutableListOf()
-        Log.d(this::class.simpleName, "products: ${Gson().toJson(products)} cartProducts: ${Gson().toJson(cartProducts)}")
         cartProducts.map { cartProduct ->
             products.map { product ->
                 if (product.id == cartProduct.productId) {

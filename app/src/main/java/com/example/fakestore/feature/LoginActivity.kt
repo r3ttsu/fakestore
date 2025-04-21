@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
+        binding.btnLogin.setOnClickListener { submitLogin() }
         viewModel.userState.observe(this) { state ->
             binding.progressbar.isVisible = state.isLoading
             when {
@@ -41,7 +42,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, state.error, Toast.LENGTH_SHORT).show()
                 }
             }
-            binding.btnLogin.setOnClickListener { submitLogin() }
         }
     }
 
@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(
                     this,
-                    "Kombinasi username dan password anda belum tepat!",
+                    "Kombinasi username dan password Anda belum tepat!",
                     Toast.LENGTH_SHORT
                 ).show()
             }

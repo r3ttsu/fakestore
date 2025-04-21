@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="125dp"
             android:contentDescription="image_product"
-            android:scaleType="fitXY" />
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -53,7 +53,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="@dimen/space_2"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             tools:text="Rating" />
 

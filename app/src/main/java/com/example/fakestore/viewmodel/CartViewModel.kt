@@ -14,22 +14,45 @@ class CartViewModel @Inject constructor(private val repository: CartRepository) 
     val cartState: LiveData<CartState> = _cartState
 
     init {
-        getCart()
+        loadCart()
     }
 
-    private fun getCart() {
+    private fun loadCart() {
         viewModelScope.launch {
             val carts = repository.getCart()
+            val total = repository.getTotal(carts)
             _cartState.value = _cartState.value?.copy(
                 isLoading = false,
-                data = carts
+                data = carts,
+                totalPrice = total
             )
+        }
+    }
+
+    fun updateQty(cart: Cart) {
+        viewModelScope.launch {
+            repository.updateCart(cart)
+            loadCart()
+        }
+    }
+
+    fun removeItem(cart: Cart) {
+        viewModelScope.launch {
+            repository.removeItem(cart)
+            loadCart()
+        }
+    }
+
+    fun checkout(){
+        viewModelScope.launch {
+            repository.clearCart()
         }
     }
 
     data class CartState(
         val isLoading: Boolean = true,
         val data: List<Cart> = emptyList(),
+        val totalPrice: Double? = 0.0,
         val error: String? = null,
     )
 }
